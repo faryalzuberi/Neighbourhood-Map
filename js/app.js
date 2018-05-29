@@ -196,17 +196,19 @@ $(function(){
 	  		 		//if the search word entered by the user
 	  		 		//does not match the current item in our observable array
 	  		 		//then remove the marker and item
-		            if(location.title() != input.value){
-		            	self.removeMarker(location);
+            console.log(location.title().indexOf(input.value));
+            if(location.title().indexOf(input.value) !== -1){
+		            	self.removeAllMarkers();
 		            	self.removeLocation(location, input.value);
 		            }
-				}
-		 	});
+				    }
+		  	});
+        self.addMarkers(); 
 	  	}
 
 	  	//remove item from array
-	  	self.removeLocation = function(location, search) {
-	  		self.locationsObservableArray(self.locationsObservableArray.remove( function (location) { return location.title() == search; } ));
+	  	self.removeLocation = function(location, input) {
+	  		self.locationsObservableArray(self.locationsObservableArray.remove( function (location) { return location.title().indexOf(input) != -1; } ));
 	  	}
 
 	  	//loops over the initial locations objects and creates a new model for each
@@ -238,7 +240,7 @@ $(function(){
 	  		});
 	  	}
 
-	  	self.addMarkers = function(location) {
+	  	self.addMarkers = function() {
 	  		ko.utils.arrayForEach(self.locationsObservableArray(), function(location) {
 	  		location.marker.setMap(map);
 	  		});
